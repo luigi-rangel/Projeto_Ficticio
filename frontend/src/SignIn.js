@@ -20,7 +20,7 @@ export default function SignUp(){
         api.get('/user', { params: u})
             .then(res => setUser(res.data.data[0]))
             .catch(e => {
-                if(e.response.status === 404) setMessage((<p>Não foi possível logar. Verifique usuário e senha.</p>));
+                if(e.response.status === 404) setMessage('Não foi possível logar. Verifique usuário e senha.');
                 else if(e.response.status === 400);
                 else console.log(e.message);
             });
@@ -33,9 +33,11 @@ export default function SignUp(){
     return (
         <div>
             <h2>Logar usuário</h2>
-            {message}
-            <input type="text" placeholder='Usuário' ref={username}></input>
-            <input type="password" placeholder='Senha' ref={password}></input>
+            <p>{message}</p>
+            <div className='input'>
+                <input type="text" placeholder='Usuário' ref={username}></input>
+                <input type="password" placeholder='Senha' ref={password}></input>
+            </div>
             <button onClick={signIn} className="botao">Logar</button>
         </div>
     );

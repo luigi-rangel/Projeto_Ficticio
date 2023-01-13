@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
+import './styles.css';
+
 export default function Project(){
     const location = useLocation();
     const navigate = useNavigate();
@@ -46,6 +48,7 @@ export default function Project(){
     };
 
     useEffect(() => {
+        document.title = proj.title + ` - ${view ? 'Detalhes' : 'Editar'}`;
         getProjectByID(proj.id);
     }, []);
 
@@ -54,14 +57,18 @@ export default function Project(){
     const projectView = () => {
         return (
             <>
-                <p><b>Título:</b> {project?.title}</p>
+                <h3><b>{project?.title}</b></h3>
                 <p><b>Local:</b> {project?.location}</p>
                 <p><b>Custo:</b> {project?.cost}</p>
                 <p><b>Prazo:</b> {new Date(project?.deadline).toLocaleString()}</p>
                 <p><b>Data de criação:</b> {new Date(project?.created_at).toLocaleString()}</p>
                 <p><b>Modificado por último:</b> {updated_at}</p>
                 <p><b>Concluído:</b> {project?.done ? '✅' : '❌'}</p>
-                <button onClick={() => setView(false)}>Editar</button>
+                <div className='buttons'>
+                    <button onClick={() => navigate(-1)}>Voltar</button>
+                    <button onClick={() => setView(false)}>Editar</button>
+                    <button onClick={() => deleteProject(project.id)}>Deletar projeto</button>
+                </div>
             </>
         );
     };
@@ -69,14 +76,29 @@ export default function Project(){
     const projectEdit = () => {
         return (
             <>
-                <p><b>Título:</b> <input type="text" defaultValue={project?.title} ref={title}></input></p>
+                <h3><input type="text" defaultValue={project?.title} ref={title}></input></h3>
                 <p><b>CEP:</b> <input type="text" defaultValue={proj.zip_code} ref={zip_code}></input></p>
                 <p><b>Custo:</b> <input type="number" defaultValue={project?.cost} ref={cost}></input></p>
                 <p><b>Prazo:</b> <input type="date" defaultValue={parseDate(new Date(project?.deadline))} ref={deadlineDate}></input><input type="time" defaultValue={parseTime(new Date(project?.deadline))} ref={deadlineTime}></input></p>
                 <p><b>Data de criação:</b> {new Date(project?.created_at).toLocaleString()}</p>
                 <p><b>Modificado por último:</b> {updated_at}</p>
-                {project?.done ? (<p><b>Concluído:</b>'✅'</p>) : (<button onClick={() => done(project.id)}>Concluir Projeto</button>)}
-                <button onClick={() => updateProject(proj.id)}>Enviar</button>
+                {project?.done ? (
+                    <>
+                        <p><b>Concluído:</b> ✅</p>
+                        <div className='buttons'>
+                            <button onClick={() => setView(true)}>Voltar</button>
+                            <button onClick={() => updateProject(proj.id)}>Salvar</button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className='buttons'>
+                            <button onClick={() => setView(true)}>Voltar</button>
+                            <button onClick={() => done(project.id)}>Concluir Projeto</button>
+                            <button onClick={() => updateProject(proj.id)}>Salvar</button>
+                        </div>
+                    </>
+                )}
             </>
         );
     };
@@ -131,8 +153,9 @@ export default function Project(){
 
     return (
         <>
-            {mode}
-            <button onClick={() => deleteProject(project.id)}>Deletar projeto</button>
+            <div className='projectBox'>
+                {mode}
+            </div>
         </>
     );
 }

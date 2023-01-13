@@ -1,0 +1,17 @@
+.projectBox {
+    min-width: 20rem;
+    width: 40vw;
+    padding: 1rem;
+    border: 1pt solid black;
+    border-radius: 1%;
+    margin: 2rem 30vw;
+    background-color: rgb(240, 240, 240);
+}
+
+.projectBox p {
+    text-align: left;
+}
+
+.buttons button{
+    margin: auto 0.3rem;
+}

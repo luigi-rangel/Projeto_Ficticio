@@ -1,0 +1,46 @@
+.flexbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+    margin-top: 3rem;
+}
+
+.flexbox>div {
+    width: 40rem;
+    height: 16rem;
+    margin: 1rem 0;
+    padding: 1rem 1rem;
+    border: 1pt solid black;
+    border-radius: 1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(240, 240, 240);
+}
+
+.flexbox p {
+    color: red;
+    height: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+.input {
+    border: none;
+    margin-bottom: 1em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+input {
+    border-radius: 0;
+    border: 1pt solid black;
+}
+
+button {
+    width: fit-content;
+}

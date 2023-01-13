@@ -22,7 +22,7 @@ const createProject = async (p, username) => {
 const getProjects = async (username) => {
     const db = client();
 
-    const query = 'SELECT P.id, title, zip_code, cost, done, deadline, username, created_at, updated_at FROM project P INNER JOIN users U ON P.userID=U.id WHERE U.username = $1;';
+    const query = 'SELECT P.id, title, zip_code, cost, done, deadline, username, created_at, updated_at FROM project P INNER JOIN users U ON P.userID=U.id WHERE U.username = $1 ORDER BY done, deadline;';
 
     await db.connect();
     const projects = await db.query(query, [username]);
@@ -67,10 +67,12 @@ const updateProject = async (p, id, username) => {
 const projectDone = async (id, username) => {
     const db = client();
 
-    const query = 'UPDATE project SET done=true WHERE id=$1 AND userid IN (SELECT userid FROM users WHERE username=$2)';
+    const query = 'UPDATE project SET done=true, updated_at=$1 WHERE id=$2 AND userid IN (SELECT userid FROM users WHERE username=$3)';
+
+    const updated_at = new Date().toISOString();
 
     await db.connect();
-    await db.query(query, [id, username]);
+    await db.query(query, [updated_at, id, username]);
     await db.end();
 
     return;

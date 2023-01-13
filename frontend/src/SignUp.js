@@ -25,7 +25,7 @@ export default function SignUp(){
                 setUser({name: user.name, username: user.username});
             })
             .catch(e => {
-                if(e.response.status === 422) setMessage((<p>Outro usuário já possui o apelido '{user.username}'.</p>));
+                if(e.response.status === 422) setMessage(`Outro usuário já possui o apelido '${user.username}'.`);
                 else if(e.response.status === 400) setMessage((<p>Verifique se todos os campos estão preenchidos!</p>));
                 else console.error(e.message);
         });
@@ -38,10 +38,12 @@ export default function SignUp(){
     return (
         <div>
             <h2>Criar usuário</h2>
-            {message}
-            <input type="text" placeholder="Nome" ref={name}></input>
-            <input type="text" placeholder='Usuário' ref={username}></input>
-            <input type="password" placeholder='Senha' ref={password}></input>
+            <p>{message}</p>
+            <div className='input'>
+                <input type="text" placeholder="Nome" ref={name}></input>
+                <input type="text" placeholder='Usuário' ref={username}></input>
+                <input type="password" placeholder='Senha' ref={password}></input>
+            </div>
             <button onClick={signUp}>Criar novo usuário</button>
         </div>
     );
