@@ -86,7 +86,10 @@ export default function Projects(){
                                 <tr key={ind}>
                                     <td onClick={() => navigate('/project', {state: {proj: item, user: user}})}>{item.title}</td>
                                     <td onClick={() => navigate('/project', {state: {proj: item, user: user}})}>{item.zip_code.substring(0, 5) + '-' + item.zip_code.substring(5)}</td>
-                                    <td onClick={() => navigate('/project', {state: {proj: item, user: user}})}>{item.cost}</td>
+                                    <td onClick={() => navigate('/project', {state: {proj: item, user: user}})}>{item.cost.toLocaleString('pt-BR', {
+                                        style: "currency",
+                                        currency: "BRL"
+                                    })}</td>
                                     <td onClick={() => navigate('/project', {state: {proj: item, user: user}})}>{new Date(item.deadline).toLocaleString()}</td>
                                     <td onClick={() => done(item.id)}>{item.done ? '✅' : '❌'}</td> 
                                     <td onClick={() => navigate('/project', {state: {proj: item, user: user}})}>{new Date(item.created_at).toLocaleString()}</td>
@@ -98,7 +101,7 @@ export default function Projects(){
                             <td><input type="text" ref={zip_code}></input></td>
                             <td><input type="number" ref={cost}></input></td>
                             <td><input type="date" ref={deadlineDate}></input><input type="time" ref={deadlineTime}></input></td>
-                            <td colspan="2"><button onClick={createProject}>Criar</button></td>
+                            <td colSpan="2"><button onClick={createProject}>Criar</button></td>
                         </tr>
                     </tbody>
                 </Table>

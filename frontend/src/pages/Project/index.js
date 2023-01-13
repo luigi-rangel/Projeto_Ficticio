@@ -59,7 +59,10 @@ export default function Project(){
             <>
                 <h3><b>{project?.title}</b></h3>
                 <p><b>Local:</b> {project?.location}</p>
-                <p><b>Custo:</b> {project?.cost}</p>
+                <p><b>Custo:</b> {project?.cost.toLocaleString('pt-BR', {
+                                        style: "currency",
+                                        currency: "BRL"
+                                    })}</p>
                 <p><b>Prazo:</b> {new Date(project?.deadline).toLocaleString()}</p>
                 <p><b>Data de criação:</b> {new Date(project?.created_at).toLocaleString()}</p>
                 <p><b>Modificado por último:</b> {updated_at}</p>
