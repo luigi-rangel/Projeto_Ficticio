@@ -1,20 +1,24 @@
 const express = require('express');
+const cors = require('cors');
 
 const pController = require('./controllers/projectsController');
 const pUtils = require('./Utils/projectsUtils');
 
-const uControllers = require('./controllers/usersController');
+const uController = require('./controllers/usersController');
 const uUtils = require('./Utils/usersUtils');
 
 const router = express.Router();
 
-router.post('/users', uUtils.validateBody(), uControllers.createUser);
-router.post('/projects', pUtils.validateBody(), pUtils.validateHeaders(), pController.createProject);
+router.use(cors());
+
+router.post('/users', uUtils.validateBody(), uUtils.checkUserExists(), uController.createUser);
+router.post('/project', pUtils.validateBody(), pUtils.validateHeaders(), pController.createProject);
 
 router.get('/projects', pUtils.validateHeaders(), pController.getProjects);
 router.get('/project/', pController.getProjectByID);
+router.get('/user', uUtils.validateQuery(), uController.getUser);
 
-router.put('/projects/:id', pUtils.validateBody(['title', 'zip_code', 'deadline']), pUtils.validateHeaders(), pController.updateProject);
+router.put('/projects/:id', pUtils.validateBody(), pUtils.validateHeaders(), pController.updateProject);
 
 router.patch('/projects/:id/done', pUtils.validateHeaders(), pController.projectDone);
 

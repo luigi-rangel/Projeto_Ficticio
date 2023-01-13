@@ -27,7 +27,20 @@ const getUserByUsername = async (username) => {
     return user.rows;
 }
 
+const getUserByUsernameAndPassword = async (username, password) => {
+    const db = client();
+
+    const query = 'SELECT name, username, password FROM users WHERE username=$1 AND password=$2';
+
+    await db.connect();
+    user = await db.query(query, [username, password]);
+    await db.end();
+
+    return user.rows;
+}
+
 module.exports = {
     createUser,
-    getUserByUsername
+    getUserByUsername,
+    getUserByUsernameAndPassword
 }

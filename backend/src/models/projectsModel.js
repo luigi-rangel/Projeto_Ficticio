@@ -53,10 +53,12 @@ const getProjectByID = async (id, username) => {
 const updateProject = async (p, id, username) => {
     const db = client();
 
-    const query = 'UPDATE project SET title=$1, zip_code=$2, deadline=$3 WHERE id = $4 AND userid IN (SELECT userid FROM users WHERE username= $5)';
+    const query = 'UPDATE project SET title=$1, zip_code=$2, cost=$3, deadline=$4, updated_at=$5 WHERE id = $6 AND userid IN (SELECT userid FROM users WHERE username= $7)';
+
+    const updated_at = new Date().toISOString();
 
     await db.connect();
-    await db.query(query, [p.title, p.zip_code, p.deadline, id, username]);
+    await db.query(query, [p.title, p.zip_code, p.cost, p.deadline, updated_at, id, username]);
     await db.end();
 
     return;
